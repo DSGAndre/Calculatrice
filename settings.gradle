@@ -1,0 +1,4 @@
+include ':calculatrice'
+include ':libMBDS'
+include ':app'
+rootProject.name = "TP1"
