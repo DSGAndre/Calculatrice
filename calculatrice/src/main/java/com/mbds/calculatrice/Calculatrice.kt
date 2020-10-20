@@ -10,10 +10,9 @@ import com.mbds.calculatrice.databinding.ActivityCalculatriceBinding
 
 
 class Calculatrice : AppCompatActivity() {
-
-
     lateinit var binding: ActivityCalculatriceBinding
     lateinit var root: ConstraintLayout
+    var resetAfterResult: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,36 +20,37 @@ class Calculatrice : AppCompatActivity() {
         root = binding.root
         setContentView(root)
         initView()
-
     }
 
-    fun setListenerOnClick(button: Button) {
-
-        print(button.id.toString())
+    private fun setListenerOnClick(button: Button) {
         when (button.id) {
             R.id.buttonDelete -> button.setOnClickListener { binding.display.text = "" }
             R.id.buttonEquals -> button.setOnClickListener { displayResult() }
             else -> button.setOnClickListener {
-                binding.display.text = binding.display.text.toString() + button.text.toString()
+                if(resetAfterResult) {
+                    binding.display.text = button.text.toString()
+                    resetAfterResult = false
+                } else {
+                    binding.display.text = binding.display.text.toString() + button.text.toString()
+                }
             }
         }
     }
 
-    fun initView() {
+    private fun initView() {
         for (i in 0 until root.childCount) {
             if (root.get(i) is Button) setListenerOnClick(root[i] as Button)
         }
     }
 
-    fun displayResult() {
+    private fun displayResult() {
         var expression = binding.display.text
-        val splitedList = splitExpression(expression.toString())
-        calculateResult(splitedList)
-
+        val splitList = splitExpression(expression.toString())
+        calculateResult(splitList)
     }
 
-    fun splitExpression(expr: String): MutableList<String> {
-        val operators = listOf('+', '*', '-', '%')
+    private fun splitExpression(expr: String): MutableList<String> {
+        val operators = listOf('+', 'X', '-', '%')
         var lastOperatorPos = -1
         val result = mutableListOf<String>()
         for (i in expr.indices) {
@@ -65,44 +65,42 @@ class Calculatrice : AppCompatActivity() {
         return result
     }
 
-    fun calculateResult(splitedList: MutableList<String>) {
-
+    private fun calculateResult(splitList: MutableList<String>) {
         when {
-            splitedList.contains("X") -> {
-                val index = splitedList.indexOf("X")
-                val result = splitedList[index - 1].toInt() * splitedList[index + 1].toInt()
-                calculateResult(replaceAndRemoveElement(splitedList, result.toString(), index))
+            splitList.contains("X") -> {
+                val index = splitList.indexOf("X")
+                val result = splitList[index - 1].toDouble() * splitList[index + 1].toDouble()
+                calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
-            splitedList.contains("%") -> {
-                val index = splitedList.indexOf("%")
-                val result = splitedList[index - 1].toInt() / splitedList[index + 1].toInt()
-                calculateResult(replaceAndRemoveElement(splitedList, result.toString(), index))
+            splitList.contains("%") -> {
+                val index = splitList.indexOf("%")
+                val result = splitList[index - 1].toDouble() / splitList[index + 1].toDouble()
+                calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
-            splitedList.contains("+") -> {
-                val index = splitedList.indexOf("+")
-                val result = splitedList[index - 1].toInt() + splitedList[index + 1].toInt()
-                calculateResult(replaceAndRemoveElement(splitedList, result.toString(), index))
+            splitList.contains("+") -> {
+                val index = splitList.indexOf("+")
+                val result = splitList[index - 1].toDouble() + splitList[index + 1].toDouble()
+                calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
-            splitedList.contains("-") -> {
-                val index = splitedList.indexOf("X")
-                val result = splitedList[index - 1].toInt() - splitedList[index + 1].toInt()
-                calculateResult(replaceAndRemoveElement(splitedList, result.toString(), index))
+            splitList.contains("-") -> {
+                val index = splitList.indexOf("-")
+                val result = splitList[index - 1].toDouble() - splitList[index + 1].toDouble()
+                calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
             else -> {
-                print(splitedList[0])
-                binding.display.text = splitedList[0]
+                binding.display.text = splitList[0]
+                resetAfterResult = true
             }
         }
     }
 
-    private fun replaceAndRemoveElement(splitedList: MutableList<String>, result: String, index: Int): MutableList<String> {
-        var newList = splitedList
-        newList[index-1] = result
-        newList.removeAt(index)
-        newList.removeAt(index)
-        print(newList[0])
-        return newList
+    private fun replaceAndRemoveElement(splitList: MutableList<String>, result: String, index: Int): MutableList<String> {
+        splitList[index-1] = result
+
+        // Remove the operator and the second part of the expression, one after another
+        splitList.removeAt(index)
+        splitList.removeAt(index)
+
+        return splitList
     }
-
-
 }
