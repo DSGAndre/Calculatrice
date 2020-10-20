@@ -55,9 +55,16 @@ class Calculatrice : AppCompatActivity() {
         val result = mutableListOf<String>()
         for (i in expr.indices) {
             if (i == expr.length - 1) {
-                result.add(expr.substring(lastOperatorPos + 1))
+                if (operators.contains(expr[i])) {
+                    result.add(expr.substring(lastOperatorPos + 1, i))
+                    result.add(expr[i].toString())
+                } else {
+                    result.add(expr.substring(lastOperatorPos + 1))
+                }
             } else if (operators.contains(expr[i])) {
-                result.add(expr.substring(lastOperatorPos + 1, i))
+                if(i != 0) {
+                    result.add(expr.substring(lastOperatorPos + 1, i))
+                }
                 result.add(expr[i].toString())
                 lastOperatorPos = i
             }
@@ -69,23 +76,45 @@ class Calculatrice : AppCompatActivity() {
         when {
             splitList.contains("X") -> {
                 val index = splitList.indexOf("X")
+                if(isOperatorInvalid(index, splitList)) { triggerErrorMessage(); return }
                 val result = splitList[index - 1].toDouble() * splitList[index + 1].toDouble()
                 calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
             splitList.contains("%") -> {
                 val index = splitList.indexOf("%")
+                if(isOperatorInvalid(index, splitList)) { triggerErrorMessage(); return }
                 val result = splitList[index - 1].toDouble() / splitList[index + 1].toDouble()
                 calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
             splitList.contains("+") -> {
                 val index = splitList.indexOf("+")
+                if(isOperatorInvalid(index, splitList)) { triggerErrorMessage(); return }
                 val result = splitList[index - 1].toDouble() + splitList[index + 1].toDouble()
                 calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
             }
             splitList.contains("-") -> {
-                val index = splitList.indexOf("-")
-                val result = splitList[index - 1].toDouble() - splitList[index + 1].toDouble()
-                calculateResult(replaceAndRemoveElement(splitList, result.toString(), index))
+                when(val index = splitList.indexOf("-")) {
+                    // When the '-' operator means a negative number
+                    0 -> {
+                        splitList[0] = "-" + splitList[index + 1]
+                        splitList.removeAt(index + 1)
+                        calculateResult(splitList)
+                    }
+                    (splitList.size - 1) -> {
+                        triggerErrorMessage();
+                        return
+                    }
+                    else -> {
+                        val result = splitList[index - 1].toDouble() - splitList[index + 1].toDouble()
+                        calculateResult(
+                            replaceAndRemoveElement(
+                                splitList,
+                                result.toString(),
+                                index
+                            )
+                        )
+                    }
+                }
             }
             else -> {
                 binding.display.text = splitList[0]
@@ -95,12 +124,21 @@ class Calculatrice : AppCompatActivity() {
     }
 
     private fun replaceAndRemoveElement(splitList: MutableList<String>, result: String, index: Int): MutableList<String> {
-        splitList[index-1] = result
+        splitList[index - 1] = result
 
         // Remove the operator and the second part of the expression, one after another
         splitList.removeAt(index)
         splitList.removeAt(index)
 
         return splitList
+    }
+
+    private fun triggerErrorMessage() {
+        binding.display.text = getString(R.string.error_message)
+        resetAfterResult = true
+    }
+
+    private fun isOperatorInvalid(index: Int, splitList: MutableList<String>): Boolean {
+        return index == 0 || (index == splitList.size - 1)
     }
 }
