@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/field_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/computation_nb_1"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/field_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="@string/computation_nb_2"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/field_1" />
+
+        <RadioGroup
+            android:id="@+id/choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/field_2">
+
+            <RadioButton
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/addition" />
+
+            <RadioButton
+                android:id="@+id/minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/soustraction" />
+
+            <RadioButton
+                android:id="@+id/div"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/division" />
+
+            <RadioButton
+                android:id="@+id/mult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/multiplication" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/compute_result"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/compute_button"
+            app:layout_constraintEnd_toEndOf="@+id/field_2"
+            app:layout_constraintStart_toStartOf="@+id/field_2"
+            app:layout_constraintTop_toBottomOf="@+id/field_2"
+
+            tools:text="TextView" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/compute_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="80dp"
+            android:text="@string/computation_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

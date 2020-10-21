@@ -1,5 +1,6 @@
-include ':fragment'
-include ':calculatrice'
-include ':libMBDS'
-include ':app'
+include ':newsletter'
+//include ':fragments'
+//include ':calculatrice'
+//include ':libMBDS'
+//include ':app'
 rootProject.name = "TP1"

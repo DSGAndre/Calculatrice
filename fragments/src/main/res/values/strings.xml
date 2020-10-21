@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Fragments</string>
+    <string name="computation_nb_1">Nombre 1</string>
+    <string name="computation_nb_2">Nombre 2</string>
+    <string name="computation_button">Calculer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addition">Addition</string>
+    <string name="soustraction">Soustraction</string>
+    <string name="division">Division</string>
+    <string name="multiplication">Multiplication</string>
+</resources>

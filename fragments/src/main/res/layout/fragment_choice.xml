@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingEnd="10dp"
+    tools:context=".fragments.ChoiceFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_add"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/addition"
+        android:tag="ADD"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_minus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/soustraction"
+        android:tag="MINUS"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toEndOf="@id/bt_add"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_div"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/division"
+        android:tag="DIV"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_add"
+        app:layout_constraintWidth_percent="0.5" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_mult"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/multiplication"
+        android:tag="TIMES"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toEndOf="@id/bt_div"
+        app:layout_constraintTop_toBottomOf="@id/bt_add"
+        app:layout_constraintWidth_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
