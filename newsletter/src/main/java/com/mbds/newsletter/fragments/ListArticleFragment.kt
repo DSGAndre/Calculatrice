@@ -5,32 +5,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbds.newsletter.R
 import com.mbds.newsletter.adapters.ArticleAdapter
 import com.mbds.newsletter.http.repositories.ArticleRepository
 import com.mbds.newsletter.models.Article
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A simple [Fragment] subclass.
  * Use the [ListArticleFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListArticleFragment : Fragment() {
+class ListArticleFragment : Fragment(), CoroutineScope {
     lateinit var recyclerView: RecyclerView
     private lateinit var category: String
     private val repository = ArticleRepository()
+    private lateinit var data: List<Article>
+    private var job: Job = Job()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        lifecycleScope.launch {
-            getData()
-        }
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     override fun onCreateView(
@@ -38,22 +40,22 @@ class ListArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false)
+        return inflater.inflate(R.layout.fragment_list_article, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.recycler_view)
-        val articles = listOf<Article>()
-        val adapterRecycler = ArticleAdapter(articles)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = adapterRecycler
-    }
+        launch {
+            val loaderData = async(Dispatchers.IO) {
+                data = repository.list(category)
+            }
 
-    private suspend fun getData(){
-        withContext(Dispatchers.IO) {
-            val result = repository.list(category)
-            result.forEach { println(it.author) }
+            view.findViewById<TextView>(R.id.categoryTitle).text = category
+            recyclerView = view.findViewById(R.id.recycler_view)
+            loaderData.await()
+            val adapterRecycler = ArticleAdapter(data)
+            recyclerView.layoutManager = LinearLayoutManager(view.context)
+            recyclerView.adapter = adapterRecycler
         }
     }
 
