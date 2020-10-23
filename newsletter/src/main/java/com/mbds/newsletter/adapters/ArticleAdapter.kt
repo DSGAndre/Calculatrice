@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mbds.newsletter.R
 import com.mbds.newsletter.models.Article
 
@@ -14,10 +15,12 @@ class ArticleAdapter(private val dataset: List<Article>) :
     RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
     class ViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
         fun bind(item: Article) {
-//            val txtName = root.findViewById<TextView>(R.id.category_name)
-//            val img = root.findViewById<AppCompatImageView>(R.id.category_image)
-//            txtName.text = item.name
-//            Glide.with(root).load(item.url).into(img)
+            val txtTitle = root.findViewById<TextView>(R.id.title)
+            val img = root.findViewById<AppCompatImageView>(R.id.image)
+            val txtDesc = root.findViewById<TextView>(R.id.desc)
+            txtTitle.text = item.title
+            txtDesc.text = item.description
+            Glide.with(root).load(item.url).transform(RoundedCorners(100)).into(img)
         }
     }
 

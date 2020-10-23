@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,13 @@ class ListArticleFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     private lateinit var category: String
     private val repository = ArticleRepository()
+    private var isPending = false
+    private lateinit var data: List<Article>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lifecycleScope.launch {
-            getData()
+            fetchData()
         }
     }
 
@@ -44,16 +47,16 @@ class ListArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
-        val articles = listOf<Article>()
-        val adapterRecycler = ArticleAdapter(articles)
+        val adapterRecycler = ArticleAdapter(data)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapterRecycler
     }
 
-    private suspend fun getData(){
+    private suspend fun fetchData(){
+        isPending = true
         withContext(Dispatchers.IO) {
-            val result = repository.list(category)
-            result.forEach { println(it.author) }
+            data = repository.list(category)
+            isPending = false
         }
     }
 

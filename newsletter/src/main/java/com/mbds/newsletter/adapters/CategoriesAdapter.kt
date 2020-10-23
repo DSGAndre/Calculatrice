@@ -7,6 +7,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.mbds.newsletter.R
 import com.mbds.newsletter.models.Category
 
@@ -15,10 +18,12 @@ class CategoriesAdapter(private val dataset: List<Category>, private val callbac
 
     inner class ViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
         fun bind(item: Category) {
-            val txtName = root.findViewById<TextView>(R.id.category_name)
-            val img = root.findViewById<AppCompatImageView>(R.id.category_image)
-            txtName.text = item.name
-            Glide.with(root).load(item.url).into(img)
+            val txtTitle = root.findViewById<TextView>(R.id.title)
+            val img = root.findViewById<AppCompatImageView>(R.id.image)
+            val txtDesc = root.findViewById<TextView>(R.id.desc)
+            txtTitle.text = item.name
+            txtDesc.text = item.desc
+            Glide.with(root).load(item.url).transform(RoundedCorners(100)).into(img)
 
             root.setOnClickListener {
                 callback.onClick(item.name)
