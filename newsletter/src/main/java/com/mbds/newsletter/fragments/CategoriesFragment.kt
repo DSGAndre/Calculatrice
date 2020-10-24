@@ -37,10 +37,10 @@ class CategoriesFragment : Fragment(), CategoryCallback {
             Category("Sport", "Most exhausting sport topics from all around the world", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTqHRYCG74D6qQ2IT6TUWpt9Mrn3iBgfS0nww&usqp=CAU"),
             Category("Economic", "Wealthier economic topics from all around the world", "https://i.kym-cdn.com/entries/icons/facebook/000/029/959/Screen_Shot_2019-06-05_at_1.26.32_PM.jpg"),
             Category("Politic", "Leading politic topics from all around the world", "https://upload.wikimedia.org/wikipedia/commons/0/04/Barack_Obama_Mic_Drop_2016.jpg"),
-            Category("Education", "Smartest education topics from all around the world", "https://upload.wikimedia.org/wikipedia/commons/0/04/Barack_Obama_Mic_Drop_2016.jpg"),
-            Category("Pandemic", "Sickest pandemic topics from all around the world", "https://upload.wikimedia.org/wikipedia/commons/0/04/Barack_Obama_Mic_Drop_2016.jpg"),
-            Category("Sciences", "Mind blowing science topics from all around the world", "https://upload.wikimedia.org/wikipedia/commons/0/04/Barack_Obama_Mic_Drop_2016.jpg"),
-            Category("Ecology", "Greenest ecology topics from all around the world", "https://upload.wikimedia.org/wikipedia/commons/0/04/Barack_Obama_Mic_Drop_2016.jpg")
+            Category("Education", "Smartest education topics from all around the world", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRYpjMsQJvcXdh-nsUZ4J7KqVPY5165xHgycQ&usqp=CAU"),
+            Category("Pandemic", "Sickest pandemic topics from all around the world", "https://www.cetim.ch/wp-content/uploads/Pages-2-et-3-1.png"),
+            Category("Sciences", "Mind blowing science topics from all around the world", "https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/6/f/c/6fc6bc1b21_50021087_albert-einstein-langue.jpg"),
+            Category("Ecology", "Greenest ecology topics from all around the world", "https://www.science.edu/acellus/wp-content/uploads/2017/01/earth-405096_1920.jpg")
         )
         val adapterRecycler = CategoriesAdapter(categories, this)
         recyclerView.layoutManager = LinearLayoutManager(view.context)

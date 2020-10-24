@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -26,7 +27,6 @@ import kotlinx.coroutines.Dispatchers
  * create an instance of this fragment.
  */
 class ListArticleFragment : Fragment() {
-    lateinit var recyclerView: RecyclerView
     private lateinit var category: String
     private val repository = ArticleRepository()
     private lateinit var adapter: ArticleAdapter
@@ -46,8 +46,9 @@ class ListArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val titleText: TextView = view.findViewById(R.id.category_title)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        val spinner: ProgressBar = view.findViewById(R.id.spinner)
         titleText.text = category
-        recyclerView = view.findViewById(R.id.recycler_view)
         adapter = ArticleAdapter(mutableListOf())
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
@@ -56,15 +57,15 @@ class ListArticleFragment : Fragment() {
                 when (resource.status) {
                     SUCCESS -> {
                         recyclerView.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
+                        spinner.visibility = View.GONE
                         resource.data?.let { articles -> retrieveList(articles.articles) }
                     }
                     ERROR -> {
                         recyclerView.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
+                        spinner.visibility = View.GONE
                     }
                     LOADING -> {
-//                        progressBar.visibility = View.VISIBLE
+                        spinner.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
                     }
                 }
