@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.mbds.newsletter.R
 import com.mbds.newsletter.models.Article
 
-class ArticleAdapter(private val dataset: List<Article>) :
+class ArticleAdapter(private val dataset: MutableList<Article>) :
     RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
     class ViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
         fun bind(item: Article) {
@@ -30,4 +30,12 @@ class ArticleAdapter(private val dataset: List<Article>) :
         holder.bind(dataset[position])
     }
     override fun getItemCount(): Int = dataset.size
+
+    fun addArticles(articles: List<Article>) {
+        this.dataset.apply{
+            clear()
+            addAll(articles)
+        }
+    }
+
 }

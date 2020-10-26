@@ -1,6 +1,6 @@
 package com.mbds.newsletter.models
 
-class Article(
+data class Article(
    val source: Source,
    val author: String,
    val title: String,
@@ -9,4 +9,4 @@ class Article(
    val urlToImage: String,
    val publishedAt: String,
    val content: String
-) {}
+)

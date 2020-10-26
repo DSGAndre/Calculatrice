@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface ArticleService {
     @GET("everything?apiKey=8261892cd50f455fb52dab184e26b748")
-    fun list(@Query("q") category: String): Call<ArticlesResponse>
+    suspend fun list(@Query("q") category: String): ArticlesResponse
 }
